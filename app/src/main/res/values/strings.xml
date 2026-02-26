@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">App Clinica Medica Saludplus</string>
+    <string name="frase">Health Status Rewiew</string>
+    <string name="autor">Jessica Mori</string>
+    <string name="texto_logo">Logo empresa</string>
+    <string name="saturacion_oxigeno">Saturación de Oxígeno</string>
+    <string name="presion_arterial">Presión Arterial</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="estado_sangre">Estado de Sangre</string>
+    <string name="conteo_sanguineo">Conteo Sanguíneo</string>
+    <string name="ritmo_cardiaco">Ritmo Cardiaco</string>
+    <string name="nivel_glucosa">Nivel de Glucosa</string>
+    <string name="resultado_test">Resultado del Test</string>
+    <string name="detalles">Detalles</string>
+</resources>
