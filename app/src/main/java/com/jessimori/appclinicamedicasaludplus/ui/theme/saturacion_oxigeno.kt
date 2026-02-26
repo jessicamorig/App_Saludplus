@@ -27,9 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.jessimori.appclinicamedicasaludplus.R
 
 
-private val Any.medium: Any
-private val MaterialTheme.dimens: Any
-private val MaterialTheme.medium: Any
 
 class saturacion_oxigeno : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +44,7 @@ class saturacion_oxigeno : ComponentActivity() {
                                     )
 
                                 }
-                                Column(modifier = Modifier.fillMaxHeight()
-                                    .padding(MaterialTheme.dimens.medium),
+                                Column(modifier = Modifier.fillMaxHeight().padding(16.dp),
                                     verticalArrangement = Arrangement.SpaceBetween) {
                                     Text(text = stringResource(R.string.saturacion_oxigeno))
                                     Row(
@@ -56,22 +52,26 @@ class saturacion_oxigeno : ComponentActivity() {
                                         horizontalArrangement = Arrangement.SpaceBetween
                                     ) {
                                         Button(onClick = {
-                                            startActivity(Intent(this@saturacion_oxigeno::class.java))
+                                            startActivity(Intent(this@saturacion_oxigeno,
+                                                saturacion_oxigeno::class.java))
                                         }) {
                                             Text(stringResource(R.string.saturacion_oxigeno))
                                         }
                                         Button(onClick = {
-                                            startActivity(Intent(this@saturacion_oxigeno::class.java))
+                                            startActivity(Intent(this@saturacion_oxigeno,
+                                                saturacion_oxigeno::class.java))
                                         }) {
                                             Text(stringResource(R.string.conteo_sanguineo))
                                         }
                                         Button(onClick = {
-                                            startActivity(Intent(this@saturacion_oxigeno::class.java))
+                                            startActivity(Intent(this@saturacion_oxigeno,
+                                                saturacion_oxigeno::class.java))
                                         }) {
                                             Text(stringResource(R.string.ritmo_cardiaco))
                                         }
                                         Button(onClick = {
-                                            startActivity(Intent(this@saturacion_oxigeno::class.java))
+                                            startActivity(Intent(this@saturacion_oxigeno,
+                                                saturacion_oxigeno::class.java))
                                         }) {
                                             Text(stringResource(R.string.nivel_glucosa))
                                         }

@@ -2,6 +2,8 @@ package com.jessimori.appclinicamedicasaludplus.network
 
 import com.google.gson.annotations.SerializedName
 import com.jessimori.appclinicamedicasaludplus.model.Cliente
+import com.jessimori.appclinicamedicasaludplus.model.Especialidad
+import com.jessimori.appclinicamedicasaludplus.model.LoginResponse
 import com.jessimori.appclinicamedicasaludplus.model.Pedido
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,44 +14,39 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 /**
- * Interface del API Service
- * Define los endpoints que se consumirán
+ * Interface del API Service para servicios.campus.pe
  */
 interface ApiService {
 
-    /**
-     * Obtiene la lista de todos los clientes
-     */
     @GET("clientes.php")
     suspend fun getClientes(): List<Cliente>
 
-    /**
-     * Obtiene los pedidos de un cliente específico
-     * @param idCliente ID del cliente
-     */
     @GET("pedidoscliente.php")
     suspend fun getPedidosCliente(
         @Query("idcliente") idCliente: String
     ): List<Pedido>
+
+    /**
+     * Login - Punto 3: inicio de sesión con login.php del profesor
+     */
+    @GET("login.php")
+    suspend fun login(
+        @Query("usuario") usuario: String,
+        @Query("password") password: String
+    ): LoginResponse
 }
 
 /**
- * Objeto singleton para manejar las instancias de Retrofit
+ * Singleton Retrofit para servicios.campus.pe
  */
 object RetrofitClient {
 
     private const val BASE_URL = "https://servicios.campus.pe/"
 
-    /**
-     * Configuración del interceptor de logging para debugging
-     */
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    /**
-     * Cliente HTTP con configuraciones personalizadas
-     */
     private val httpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -57,35 +54,43 @@ object RetrofitClient {
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    /**
-     * Instancia de Retrofit para servicios.campus.pe
-     */
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(httpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    /**
-     * Servicio de API principal
-     */
     val apiService: ApiService = retrofit.create(ApiService::class.java)
 }
 
 /**
- * Interface del API Service para tu servicio web personalizado
+ * Interface del API Service para el servidor propio (XAMPP)
+ * Punto 1: servicio web con parámetro GET
+ * Punto 2: consulta maestro-detalle Especialidades -> Doctores
  */
 interface CustomApiService {
 
-    // Aquí agregarás el endpoint de tu servicio web personalizado
-    // Ejemplo para un servicio de doctores/médicos:
-    @GET("doctores.php")  // Cambia esto según tu servicio
+    /**
+     * Obtiene todas las especialidades médicas (MAESTRO)
+     */
+    @GET("especialidades.php")
+    suspend fun getEspecialidades(): List<Especialidad>
+
+    /**
+     * Punto 1: Obtiene doctores por especialidad usando parámetro URL GET
+     * Ejemplo: doctoresxespecialidad.php?idespecialidad=1
+     */
+    @GET("doctoresxespecialidad.php")
+    suspend fun getDoctoresByEspecialidad(
+        @Query("idespecialidad") idespecialidad: String
+    ): List<Doctor>
+
+    @GET("doctores.php")
     suspend fun getDoctores(): List<Doctor>
 }
 
 /**
- * Modelo de ejemplo para tu servicio personalizado (Doctores)
- * Ajusta según tu servicio web
+ * Modelo Doctor para el servicio propio
  */
 data class Doctor(
     @SerializedName("iddoctor")
@@ -98,7 +103,10 @@ data class Doctor(
     val apellidos: String,
 
     @SerializedName("especialidad")
-    val especialidad: String,
+    val especialidad: String? = null,
+
+    @SerializedName("idespecialidad")
+    val idEspecialidad: String? = null,
 
     @SerializedName("telefono")
     val telefono: String,
@@ -114,12 +122,11 @@ data class Doctor(
 )
 
 /**
- * Cliente Retrofit para tu servicio web personalizado
+ * Cliente Retrofit para el servidor propio XAMPP
+ * 10.0.2.2 apunta al localhost del PC cuando se usa el emulador
  */
 object CustomRetrofitClient {
 
-    // URL base de tu servicio en XAMPP
-    // Para emulador de Android Studio, "10.0.2.2" apunta al localhost de tu PC.
     private const val BASE_URL = "http://10.0.2.2/appClinica/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -141,7 +148,3 @@ object CustomRetrofitClient {
 
     val customApiService: CustomApiService = retrofit.create(CustomApiService::class.java)
 }
-
-
-
-

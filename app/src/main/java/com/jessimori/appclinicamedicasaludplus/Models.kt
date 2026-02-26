@@ -3,6 +3,35 @@ package com.jessimori.appclinicamedicasaludplus.model
 import com.google.gson.annotations.SerializedName
 
 /**
+ * Modelo de datos para Especialidad (MAESTRO)
+ * Representa las especialidades médicas de la clínica
+ */
+data class Especialidad(
+    @SerializedName("idespecialidad")
+    val idEspecialidad: String,
+
+    @SerializedName("nombre")
+    val nombre: String,
+
+    @SerializedName("descripcion")
+    val descripcion: String,
+
+    @SerializedName("area")
+    val area: String
+)
+
+/**
+ * Modelo de respuesta del servicio login.php
+ */
+data class LoginResponse(
+    @SerializedName("respuesta")
+    val respuesta: String,
+
+    @SerializedName("usuario")
+    val usuario: String? = null
+)
+
+/**
  * Modelo de datos para Cliente
  * Representa la información de un cliente del sistema
  */

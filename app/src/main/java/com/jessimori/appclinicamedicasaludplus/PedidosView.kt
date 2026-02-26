@@ -17,7 +17,8 @@ import com.jessimori.appclinicamedicasaludplus.model.Cliente
 import com.jessimori.appclinicamedicasaludplus.model.Pedido
 import com.jessimori.appclinicamedicasaludplus.viewmodel.PedidosUiState
 import com.jessimori.appclinicamedicasaludplus.viewmodel.PedidosViewModel
-
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.background
 /**
  * Pantalla de Pedidos de un Cliente
  * Muestra los pedidos del cliente seleccionado
