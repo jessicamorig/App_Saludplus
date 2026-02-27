@@ -10,6 +10,21 @@ CREATE DATABASE IF NOT EXISTS clinica_saludplus
 USE clinica_saludplus;
 
 -- ----------------------------
+-- TABLA: usuarios
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS usuarios (
+    idusuario  INT PRIMARY KEY AUTO_INCREMENT,
+    usuario    VARCHAR(100) NOT NULL UNIQUE,
+    password   VARCHAR(100) NOT NULL,
+    nombre     VARCHAR(150) NOT NULL
+);
+
+INSERT INTO usuarios (usuario, password, nombre) VALUES
+('admin',   '1234',   'Administrador'),
+('jessica', '1234',   'Jessica Mori'),
+('doctor',  '1234',   'Dr. Saludplus');
+
+-- ----------------------------
 -- TABLA: especialidades
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS especialidades (

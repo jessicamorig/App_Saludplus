@@ -1,9 +1,9 @@
 package com.jessimori.appclinicamedicasaludplus.network
 
+import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 import com.jessimori.appclinicamedicasaludplus.model.Cliente
 import com.jessimori.appclinicamedicasaludplus.model.Especialidad
-import com.jessimori.appclinicamedicasaludplus.model.LoginResponse
 import com.jessimori.appclinicamedicasaludplus.model.Pedido
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,12 +28,13 @@ interface ApiService {
 
     /**
      * Login - Punto 3: inicio de sesión con login.php del profesor
+     * Retorna JsonElement para soportar tanto número (1/0) como objeto JSON
      */
     @GET("login.php")
     suspend fun login(
         @Query("usuario") usuario: String,
         @Query("password") password: String
-    ): LoginResponse
+    ): JsonElement
 }
 
 /**
@@ -87,6 +88,16 @@ interface CustomApiService {
 
     @GET("doctores.php")
     suspend fun getDoctores(): List<Doctor>
+
+    /**
+     * Login propio (XAMPP) - reemplaza al login.php del profesor
+     * Retorna: {"respuesta":"correcto","usuario":"nombre"} o {"respuesta":"incorrecto"}
+     */
+    @GET("login.php")
+    suspend fun login(
+        @Query("usuario") usuario: String,
+        @Query("password") password: String
+    ): JsonElement
 }
 
 /**

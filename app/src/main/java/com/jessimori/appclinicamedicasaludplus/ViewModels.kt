@@ -8,6 +8,7 @@ import com.jessimori.appclinicamedicasaludplus.model.Pedido
 import com.jessimori.appclinicamedicasaludplus.network.CustomRetrofitClient
 import com.jessimori.appclinicamedicasaludplus.network.Doctor
 import com.jessimori.appclinicamedicasaludplus.network.RetrofitClient
+import com.google.gson.JsonElement
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -199,9 +200,36 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             _uiState.value = LoginUiState.Loading
             try {
-                val response = RetrofitClient.apiService.login(usuario, password)
-                if (response.respuesta == "correcto") {
-                    _uiState.value = LoginUiState.Success(response.usuario ?: usuario)
+                val response = CustomRetrofitClient.customApiService.login(usuario, password)
+                val isSuccess: Boolean
+                val nombreUsuario: String
+
+                when {
+                    // Servidor devuelve número: 1 = correcto, 0 = incorrecto
+                    response.isJsonPrimitive && response.asJsonPrimitive.isNumber -> {
+                        isSuccess = response.asInt == 1
+                        nombreUsuario = usuario
+                    }
+                    // Servidor devuelve objeto: {"respuesta":"correcto","usuario":"..."}
+                    response.isJsonObject -> {
+                        val obj = response.asJsonObject
+                        val respuesta = obj.get("respuesta")?.asString ?: ""
+                        isSuccess = respuesta == "correcto"
+                        nombreUsuario = obj.get("usuario")?.asString ?: usuario
+                    }
+                    // Servidor devuelve string: "correcto" o "incorrecto"
+                    response.isJsonPrimitive && response.asJsonPrimitive.isString -> {
+                        isSuccess = response.asString == "correcto"
+                        nombreUsuario = usuario
+                    }
+                    else -> {
+                        isSuccess = false
+                        nombreUsuario = usuario
+                    }
+                }
+
+                if (isSuccess) {
+                    _uiState.value = LoginUiState.Success(nombreUsuario)
                 } else {
                     _uiState.value = LoginUiState.Error("Usuario o contraseña incorrectos")
                 }
