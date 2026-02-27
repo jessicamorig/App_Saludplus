@@ -2,10 +2,10 @@
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 
-$host     = "localhost";
-$usuario  = "root";
-$password = "";
-$base     = "clinica_saludplus";
+$host     = "mysql-clinicasaludplus.alwaysdata.net";
+$usuario  = "clinicasaludplus_home";
+$password = "saludplus123";
+$base     = "clínicasaludplus_inicio";
 
 $conn = new mysqli($host, $usuario, $password, $base);
 $conn->set_charset("utf8mb4");

@@ -133,12 +133,11 @@ data class Doctor(
 )
 
 /**
- * Cliente Retrofit para el servidor propio XAMPP
- * 10.0.2.2 apunta al localhost del PC cuando se usa el emulador
+ * Cliente Retrofit para el servidor propio AlwaysData
  */
 object CustomRetrofitClient {
 
-    private const val BASE_URL = "http://10.0.2.2/appClinica/"
+    private const val BASE_URL = "https://clinicasaludplus.alwaysdata.net/appClinica/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
